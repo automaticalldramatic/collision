@@ -29,17 +29,17 @@
 }
 
 #bang {
-	/*background: url(http://oi50.tinypic.com/20tromb.jpg) no-repeat center;*/
-	background: url(../Images/20tromb.jpg) no-repeat center;
 	display: none;
-	height: 381px;
-	width: 554px;
+	left: 400px;
+	position: absolute;
+	top: 10px;
 	z-index: 5;
 }
 
 #controls {
 	margin: 15% 33%;
 	position: absolute;
+	z-index: 99;
 }
 
 #controls ul {

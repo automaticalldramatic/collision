@@ -36,19 +36,19 @@
 			},
 
 			//Car Config
-			defaultCarPositionX: '100',
-			defaultCarPositionY: '200',
+			defaultCarPositionX: 100,
+			defaultCarPositionY: 200,
 			currentCarPosX: '',
 			currentCarPosY: '',
 			carSpeed: 5000,
 
-			defaultWallPositionX: '700',
-			defaultWallPositionY: '60',
+			defaultWallPositionX: 700,
+			defaultWallPositionY: 60,
 			currentWallPosX: '',
 			currentWallPosY: '',
 
-			carSize: '',
-			wallSize: '',
+			carSize: 128,
+			wallSize: 128,
 
 			explosionInProgress: false
 		};
@@ -93,18 +93,24 @@
 				if(config.autostart) helpers.playpause();
 			},
 
-			moveCarForward: function() {
-				$(config.CSS.ids.rewind).removeClass(config.CSS.classes.active).addClass(config.CSS.classes.inactive);	
-				$(config.CSS.ids.playpause).removeClass(config.CSS.classes.inactive).addClass(config.CSS.classes.active).attr('title', 'Pause').html('Pause');
-				var left = $(config.CSS.ids.car).position().left - $(config.CSS.ids.wall).position().left;
-				$(config.CSS.ids.car).animate({ "left": "-=" + left + "px"}, {
+			moveCar: function(sign) {
+				var left = ( sign == "-" ) ? config.defaultCarPositionX + "px" : (config.defaultWallPositionX - config.carSize) + "px" ;
+				$(config.CSS.ids.car).animate({ "left": left}, {
 					duration: config.carSpeed,
 					step    : function(now, fx) {
-						helpers.testCollision($(config.CSS.ids.car).position(), config.carSize, $(config.CSS.ids.wall).position(), config.wallSize);
+						config.currentCarPosX = $(config.CSS.ids.car).position().left;
+						helpers.testCollision(sign);
 					},
-					queue   : false,
-					complete: ui.moveCarForward
+					queue   : true,
+					complete: function() {
+						ui.moveCar
+					}
 				});
+			},
+
+			triggerExplosion: function() {
+				helpers.stopcar();
+				$(config.CSS.ids.bang).show();
 			}
 		};
 
@@ -114,23 +120,37 @@
 					helpers.stopcar();
 					return;
 				}
-				ui.moveCarForward();
+				$(config.CSS.ids.rewind).removeClass(config.CSS.classes.active).addClass(config.CSS.classes.inactive);	
+				$(config.CSS.ids.playpause).removeClass(config.CSS.classes.inactive).addClass(config.CSS.classes.active).attr('title', 'Pause').html('Pause');
+				ui.moveCar('+');
 			},
 
 			stopcar: function() {
 				$(config.CSS.ids.playpause).removeClass(config.CSS.classes.active).addClass(config.CSS.classes.inactive).attr('title', 'Play').html('Play');
-				console.log('stopcar');
+				$(config.CSS.ids.rewind).removeClass(config.CSS.classes.active).addClass(config.CSS.classes.inactive);
+				$(config.CSS.ids.car).stop();
 			},
 
 			rewind: function() {
 				if ($(config.CSS.ids.playpause).hasClass(config.CSS.classes.active)) return;
-
+				if ($(config.CSS.ids.bang).is(":visible")) {
+					$(config.CSS.ids.bang).animate(
+						{ width: '100%' }, {
+						duration: 1000,
+						complete: $(config.CSS.ids.bang).hide()
+					});
+				}
 				$(config.CSS.ids.rewind).removeClass(config.CSS.classes.inactive).addClass(config.CSS.classes.active);
-				console.log('rewind');
+				ui.moveCar('-');
 			},
 
-			testCollision: function () {
-				
+			testCollision: function (sign) {
+				if(sign == "+") {
+					if((config.currentCarPosX  + config.carSize) >= config.defaultWallPositionX) ui.triggerExplosion();
+					
+				} else {
+					if(config.currentCarPosX - 10 <= config.defaultCarPositionX)	helpers.stopcar();
+				}
 			}
 		};
 
