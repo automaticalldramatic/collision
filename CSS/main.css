@@ -1,0 +1,68 @@
+/**
+ * CSS/main.css
+ *
+ * Main stylesheet for collision
+ * Built for Vaibhav from Amazon with all the love by @rizwaniqbal
+ */
+
+#canvas {
+	background: #fff;
+	height: auto;
+}
+
+#car {
+	/*background: url(http://oi47.tinypic.com/2wh0dqo.jpg) no-repeat center;*/
+	background: url(../Images/2wh0dqo.jpg) no-repeat center;
+	height: 128px;
+	position: relative;
+	width: 128px;
+	z-index: 1;
+}
+
+#wall {
+	/*background: url(http://oi48.tinypic.com/20qe0k6.jpg) no-repeat center;*/
+	background: url(../Images/20qe0k6.jpg) no-repeat center;
+	height: 128px;
+	position: relative;
+	width: 128px;
+	z-index: 2;
+}
+
+#bang {
+	/*background: url(http://oi50.tinypic.com/20tromb.jpg) no-repeat center;*/
+	background: url(../Images/20tromb.jpg) no-repeat center;
+	display: none;
+	height: 381px;
+	width: 554px;
+	z-index: 5;
+}
+
+#controls {
+	margin: 15% 33%;
+	position: absolute;
+}
+
+#controls ul {
+	list-style: none;
+}
+
+#controls li {
+	float: left;
+	list-style: none;
+	margin: 0 10px;
+}
+
+#controls li button {
+	border: none;
+	color: #f4f4f4;
+	cursor: pointer;
+	padding: 5px 10px;
+}
+
+.active {
+	background: #91af21;
+}
+
+.inactive {
+	background: #6e6e6e;
+}

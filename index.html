@@ -19,9 +19,28 @@
 
 		<!-- JavaScript -->
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script type='text/javascript' src='JS/collision.js'></script>
 	</head>
 
 	<body>
+		<div id="canvas">
+			<div id="car">
+			</div>
+			<div id="wall">
+			</div>
+			<div id="bang">
+			</div>
+
+			<div id="controls">
+				<ul>
+					<li>
+						<button class="inactive" id="playpause" title="Play">Play</button>
+					</li>
+					<li>
+						<button class="inactive" id="rewind" title="Rewind">Rewind</button>
+					</li>
+				</ul>
+			</div>
+		</div>
 	</body>
+	<script type='text/javascript' src='JS/collision.js'></script>
 </html>
