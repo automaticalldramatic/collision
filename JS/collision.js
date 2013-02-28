@@ -47,5 +47,5 @@
 		};
 	}();
 
-	rizwanCollision.init();
+	playCollision.init();
 });
