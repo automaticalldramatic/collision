@@ -49,6 +49,7 @@
 
 			carSize: 128,
 			wallSize: 128,
+			scale: 2,
 
 			explosionInProgress: false
 		};
@@ -97,11 +98,11 @@
 				var left = ( sign == "-" ) ? config.defaultCarPositionX + "px" : (config.defaultWallPositionX - config.carSize) + "px" ;
 				$(config.CSS.ids.car).animate({ "left": left}, {
 					duration: config.carSpeed,
-					step    : function(now, fx) {
+					step: function(now, fx) {
 						config.currentCarPosX = $(config.CSS.ids.car).position().left;
 						helpers.testCollision(sign);
 					},
-					queue   : true,
+					queue: false,
 					complete: function() {
 						ui.moveCar
 					}
@@ -111,6 +112,14 @@
 			triggerExplosion: function() {
 				helpers.stopcar();
 				$(config.CSS.ids.bang).show();
+				var sh = $(config.CSS.ids.bang + " img").height() * config.scale;
+				$(config.CSS.ids.bang + " img").animate(
+					{
+						height: $(window).height(),
+						left:0
+					}, {
+					duration: config.carSpeed
+				});
 			}
 		};
 
@@ -134,11 +143,11 @@
 			rewind: function() {
 				if ($(config.CSS.ids.playpause).hasClass(config.CSS.classes.active)) return;
 				if ($(config.CSS.ids.bang).is(":visible")) {
-					$(config.CSS.ids.bang).animate(
-						{ width: '100%' }, {
-						duration: 1000,
-						complete: $(config.CSS.ids.bang).hide()
-					});
+					$(config.CSS.ids.bang + " img").animate(
+					{height: '412px',left:'400px'}, {
+					duration: config.carSpeed,
+					complete: $(config.CSS.ids.bang).hide()
+				});
 				}
 				$(config.CSS.ids.rewind).removeClass(config.CSS.classes.inactive).addClass(config.CSS.classes.active);
 				ui.moveCar('-');
@@ -149,7 +158,7 @@
 					if((config.currentCarPosX  + config.carSize) >= config.defaultWallPositionX) ui.triggerExplosion();
 					
 				} else {
-					if(config.currentCarPosX - 10 <= config.defaultCarPositionX)	helpers.stopcar();
+					if(config.currentCarPosX - 10 <= config.defaultCarPositionX) helpers.stopcar();
 				}
 			}
 		};
